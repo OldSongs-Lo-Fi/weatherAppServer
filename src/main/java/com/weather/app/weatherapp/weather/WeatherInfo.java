@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class WeatherInfo {
     Date date;
-    String description;
+    List<String> description;
     double temperatureInCelsius;
     double temperatureInKelvin;
+    double windSpeed;
+    double humidity;
 }
