@@ -13,8 +13,8 @@ public class UserUpdateDTO {
 
     String username;
 
-    public double latitude;
+    public String city;
 
-    public double longitude;
+    public String countryCode;
 
 }

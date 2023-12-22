@@ -16,9 +16,10 @@ public class UserRegistrationDTO {
     String password;
     String email;
 
+
     //Широта
-    public double latitude;
+    public String city;
 
     //Долгота
-    public double longitude;
+    public String countryCode;
 }

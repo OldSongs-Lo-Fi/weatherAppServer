@@ -24,8 +24,8 @@ public class WeatherListenerOpenWeatherAPI implements WeatherListener {
     }
 
     @Override
-    public WeatherInfo getWeatherNow(double lat, double lon) {
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + applicationKeyToken;
+    public WeatherInfo getWeatherNow(String city, String countryCode) {
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
         ResponseEntity<WeatherResponseDTO> response = restTemplate.getForEntity(url, WeatherResponseDTO.class);
         if (Objects.isNull(response.getBody())){
             throw new RuntimeException("Error in request!");
@@ -39,8 +39,8 @@ public class WeatherListenerOpenWeatherAPI implements WeatherListener {
     }
 
     @Override
-    public List<WeatherInfo> getCoupleDays(double lat, double lon, int days) {
-        String url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=20f4e8418e51faa8d02e9f65016a7ed0";
+    public List<WeatherInfo> getCoupleDays(String city, String countryCode, int days) {
+        String url = "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
         ResponseEntity<WeatherFiveDaysForecastDTO> response = restTemplate.getForEntity(url, WeatherFiveDaysForecastDTO.class);
         if (Objects.isNull(response.getBody())){
             throw new RuntimeException("Error in request!");
@@ -62,8 +62,8 @@ public class WeatherListenerOpenWeatherAPI implements WeatherListener {
 
 
     @Override
-    public DayWeatherInfo getTodayDayWeather(double lat, double lon) {
-        String url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=20f4e8418e51faa8d02e9f65016a7ed0";
+    public DayWeatherInfo getTodayDayWeather(String city, String countryCode) {
+        String url = "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
         ResponseEntity<WeatherFiveDaysForecastDTO> response = restTemplate.getForEntity(url, WeatherFiveDaysForecastDTO.class);
         if (Objects.isNull(response.getBody())){
             throw new RuntimeException("Error in request!");

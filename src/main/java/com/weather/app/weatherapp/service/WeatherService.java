@@ -23,15 +23,14 @@ public class WeatherService {
     }
 
     public WeatherInfo getCurrentWeather(User user){
-        System.out.println("User lat: " + user.getLatitude() + " Lon: " + user.getLongitude());
-        return weatherListener.getWeatherNow(user.getLatitude(), user.getLongitude());
+        return weatherListener.getWeatherNow(user.getCity(), user.getCountryCode());
     }
 
     public DayWeatherInfo getTodayWeather(User user) {
-        return weatherListener.getTodayDayWeather(user.getLatitude(), user.getLongitude());
+        return weatherListener.getTodayDayWeather(user.getCity(), user.getCountryCode());
     }
 
     public List<WeatherInfo> getCoupleDays(User user) {
-        return weatherListener.getCoupleDays(user.getLatitude(), user.getLongitude(), days);
+        return weatherListener.getCoupleDays(user.getCity(), user.getCountryCode(), days);
     }
 }

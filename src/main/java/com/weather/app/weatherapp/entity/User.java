@@ -38,12 +38,12 @@ public class User implements UserDetails {
     UserRole userRole;
 
     //Широта
-    @Column(columnDefinition = "DOUBLE")
-    public double latitude;
+    @Column(columnDefinition = "VARCHAR(30)")
+    public String city;
 
     //Долгота
-    @Column(columnDefinition = "DOUBLE")
-    public double longitude;
+    @Column(columnDefinition = "VARCHAR(3)")
+    public String countryCode;
 
 
 

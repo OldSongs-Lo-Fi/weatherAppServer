@@ -4,6 +4,7 @@ package com.weather.app.weatherapp.controller;
 import com.weather.app.weatherapp.DTO.request.UserRegistrationDTO;
 import com.weather.app.weatherapp.DTO.request.UserUpdateDTO;
 import com.weather.app.weatherapp.entity.User;
+import com.weather.app.weatherapp.service.EmailService;
 import com.weather.app.weatherapp.service.UserService;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -21,14 +24,25 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EmailService emailService;
+
     @GetMapping("/")
     public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(user);
     }
 
-    @PostMapping("/registration")
-    public ResponseEntity<User> registration(@RequestBody UserRegistrationDTO userRegistrationDTO){
+    @PostMapping("/sendConfirmationMessage")
+    public ResponseEntity<String> sendConfirmationMessage(@RequestBody UserRegistrationDTO userRegistrationDTO){
+
+        emailService.sendEmail(userRegistrationDTO);
+        return ResponseEntity.status(200).body("A confirmation message has been sent!");
+    }
+
+    @GetMapping("/registration")
+    public ResponseEntity<User> registration(@RequestParam("email") String email, @RequestParam("activationCode") String confirmCode){
         System.out.println("registration");
+        UserRegistrationDTO userRegistrationDTO = emailService.confirmUser(email, confirmCode);
         return ResponseEntity.status(201).body(userService.registration(userRegistrationDTO));
     }
 

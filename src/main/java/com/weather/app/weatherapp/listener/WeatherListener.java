@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface WeatherListener {
 
-    DayWeatherInfo getTodayDayWeather(double lat, double lon);
+    DayWeatherInfo getTodayDayWeather(String city, String countryCode);
 
-    WeatherInfo getWeatherNow(double lat, double lon);
+    WeatherInfo getWeatherNow(String city, String countryCode);
 
-    List<WeatherInfo> getCoupleDays(double lat, double lon, int days);
+    List<WeatherInfo> getCoupleDays(String city, String countryCode, int days);
 }
