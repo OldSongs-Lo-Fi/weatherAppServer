@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class WeatherListenerOpenWeatherAPI implements WeatherListener {
 
-    private final String applicationKeyToken = "20f4e8418e51faa8d02e9f65016a7ed0";
+    private final String applicationKeyToken = "c3befe9ac4e39e8834496f294a944a9b";
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -40,7 +40,7 @@ public class WeatherListenerOpenWeatherAPI implements WeatherListener {
 
     @Override
     public List<WeatherInfo> getCoupleDays(String city, String countryCode, int days) {
-        String url = "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
+        String url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
         ResponseEntity<WeatherFiveDaysForecastDTO> response = restTemplate.getForEntity(url, WeatherFiveDaysForecastDTO.class);
         if (Objects.isNull(response.getBody())){
             throw new RuntimeException("Error in request!");
@@ -63,7 +63,7 @@ public class WeatherListenerOpenWeatherAPI implements WeatherListener {
 
     @Override
     public DayWeatherInfo getTodayDayWeather(String city, String countryCode) {
-        String url = "https://pro.openweathermap.org/data/2.5/forecast/hourly?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
+        String url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + countryCode + "&appid=" + applicationKeyToken;
         ResponseEntity<WeatherFiveDaysForecastDTO> response = restTemplate.getForEntity(url, WeatherFiveDaysForecastDTO.class);
         if (Objects.isNull(response.getBody())){
             throw new RuntimeException("Error in request!");
@@ -80,7 +80,16 @@ public class WeatherListenerOpenWeatherAPI implements WeatherListener {
                     );
                 })
                 .toList();
-        return new DayWeatherInfo(dayWeatherInfos.get(0),dayWeatherInfos.get(2), dayWeatherInfos.get(4), dayWeatherInfos.get(6));   
+        DayWeatherInfo dayWeatherInfo = new DayWeatherInfo(null,null,null,null);
+        for (WeatherInfo info: dayWeatherInfos) {
+            switch (info.getDate().getHours()){
+                case 6 -> dayWeatherInfo.setMorning(info);
+                case 12 -> dayWeatherInfo.setNoon(info);
+                case 18 -> dayWeatherInfo.setEvening(info);
+                case 0 -> dayWeatherInfo.setNight(info);
+            }
+        }
+        return dayWeatherInfo;
     }
 
 

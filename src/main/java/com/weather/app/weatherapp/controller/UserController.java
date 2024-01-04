@@ -32,6 +32,7 @@ public class UserController {
         return ResponseEntity.status(200).body(user);
     }
 
+
     @PostMapping("/sendConfirmationMessage")
     public ResponseEntity<String> sendConfirmationMessage(@RequestBody UserRegistrationDTO userRegistrationDTO){
 

@@ -32,6 +32,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
+                //.cors(AbstractHttpConfigurer::disable)
+                .csrf(httpSecurityCsrfConfigurer -> {
+                    httpSecurityCsrfConfigurer.ignoringRequestMatchers("/users/sendConfirmationMessage", "/login", "/users/registration");
+                })
                 .formLogin((form) -> form
                         .loginProcessingUrl("/login")
                         .permitAll()
@@ -64,6 +68,8 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000"); // Разрешенный источник (Origin)
+        configuration.addAllowedOrigin("file://**"); // Разрешенный источник для Postman
+        configuration.addAllowedOrigin("chrome-extension://**"); // Разрешенный источник для Postman
         configuration.addAllowedMethod("*"); // Разрешенные HTTP методы (GET, POST, PUT, DELETE, и т.д.)
         configuration.addAllowedHeader("*"); // Разрешенные заголовки
 
@@ -71,5 +77,6 @@ public class WebSecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
 
