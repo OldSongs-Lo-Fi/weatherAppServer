@@ -43,6 +43,6 @@ tasks.named('test') {
 
 jar{
 	manifest{
-		attributes "Main-Class": "WeatherAppApplication";
+		attributes 'Main-Class': 'WeatherAppApplication';
 	}
 }
